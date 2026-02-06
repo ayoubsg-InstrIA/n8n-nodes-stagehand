@@ -84,10 +84,7 @@ async function getAccessibilityTree(cdpUrl: string): Promise<string> {
 	let prompt: ChatMessageContent;
 	const stagehand = new Stagehand({
 		env: 'LOCAL',
-		domSettleTimeoutMs: 0,
-		modelClientOptions: {
-			apiKey: 'test',
-		},
+		domSettleTimeout: 0,
 		localBrowserLaunchOptions: {
 			cdpUrl,
 		},
@@ -100,9 +97,9 @@ async function getAccessibilityTree(cdpUrl: string): Promise<string> {
 	});
 	await stagehand.init();
 
-	const { page } = stagehand;
 	try {
-		await page.observe('');
+		// V3 API: observe() is on stagehand, not page
+		await stagehand.observe('');
 	} catch {
 	} finally {
 		await stagehand.close();
@@ -117,10 +114,7 @@ async function getAccessibilityTree(cdpUrl: string): Promise<string> {
 async function getNodesMap(cdpUrl: string, tree: string): Promise<Record<string, string>> {
 	const stagehand = new Stagehand({
 		env: 'LOCAL',
-		domSettleTimeoutMs: 0,
-		modelClientOptions: {
-			apiKey: 'test',
-		},
+		domSettleTimeout: 0,
 		localBrowserLaunchOptions: {
 			cdpUrl,
 		},
@@ -150,12 +144,12 @@ async function getNodesMap(cdpUrl: string, tree: string): Promise<Record<string,
 	});
 	await stagehand.init();
 
-	const { page } = stagehand;
 	try {
-		const results = await page.observe('x');
+		// V3 API: observe() is on stagehand, not page
+		const results = await stagehand.observe('x');
 		await stagehand.close();
 		return results.reduce(
-			(acc, result) => {
+			(acc: Record<string, string>, result: any) => {
 				acc[result.description] = result.selector;
 				return acc;
 			},

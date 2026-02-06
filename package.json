@@ -51,7 +51,7 @@
 		"n8n-workflow": "*"
 	},
 	"dependencies": {
-		"@browserbasehq/stagehand": "https://github.com/HighLiuk/stagehand/releases/download/2.4.2-hotfix/hotfix-2.4.2.tgz",
+		"@browserbasehq/stagehand": "^3.0.8",
 		"json-schema-to-zod": "^2.6.1",
 		"json-to-zod": "^1.1.2"
 	}
